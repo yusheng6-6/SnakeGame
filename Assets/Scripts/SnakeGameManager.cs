@@ -5,9 +5,9 @@ using UnityEngine;
 public class SnakeGameManager : MonoBehaviour
 {
     [SerializeField] GameObject _apple;
-    [SerializeField] GameObject _snake;
+    [SerializeField] SnakeHead _snake;
 
-    [SerializeField] float _noAppleTime = 1.0f;
+    [SerializeField] float _appleShowTime = 1.0f;
 
     float _duration = 0f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,10 +19,10 @@ public class SnakeGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_apple.activeSelf == false)
+        if (!_apple.activeSelf)
         {
             _duration += Time.deltaTime;
-            if (_duration >= _noAppleTime)
+            if (_duration >= _appleShowTime)
             {
                 ShowApple();
             }
@@ -38,15 +38,14 @@ public class SnakeGameManager : MonoBehaviour
 
     void ShowApple()
     {
-        Debug.Log("Show Apple");
         _apple.SetActive(true);
         _apple.transform.position = new Vector3(Random.Range(-9, 10), Random.Range(-9, 10), 0);
+        _duration = 0;
     }
 
     void EatApple()
     {
-        Debug.Log("Eat Apple");
         _apple.SetActive(false);
-        _duration = 0f;
+        _snake.AddBody();
     }
 }
