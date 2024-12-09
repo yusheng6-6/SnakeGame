@@ -6,14 +6,17 @@ public class SnakeGameManager : MonoBehaviour
 {
     [SerializeField] GameObject _apple;
     [SerializeField] SnakeHead _snake;
+    [SerializeField] GameUI _gameUI;
 
     [SerializeField] float _appleShowTime = 1.0f;
 
     float _duration = 0f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _apple.SetActive(false); //遊戲一開始看不見蘋果
+        _gameUI.ResetScore();
     }
 
     // Update is called once per frame
@@ -27,13 +30,13 @@ public class SnakeGameManager : MonoBehaviour
                 ShowApple();
             }
         }
-        else
-        {
-            if (_apple.transform.position == _snake.transform.position)
-            {
-                EatApple();
-            }
-        }
+        //else
+        //{
+        //    if (_apple.transform.position == _snake.transform.position)
+        //    {
+        //        EatApple();
+        //    }
+        //}
     }
 
     void ShowApple()
@@ -43,9 +46,10 @@ public class SnakeGameManager : MonoBehaviour
         _duration = 0;
     }
 
-    void EatApple()
+    public void EatApple()
     {
         _apple.SetActive(false);
         _snake.AddBody();
+        _gameUI.AddScore();
     }
 }

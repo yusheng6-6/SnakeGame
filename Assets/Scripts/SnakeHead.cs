@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SnakeHead : MonoBehaviour
 {
+    [SerializeField] SnakeGameManager _snakeGameManager;
+
     [SerializeField] float _timePerUnit = 0.5f;
     [SerializeField] GameObject _snakeBodyPrefab;
 
@@ -19,7 +22,7 @@ public class SnakeHead : MonoBehaviour
     {
         _time = 0f;
         _previousDirection = Vector2Int.up;
-        _snakeBodies = new List<GameObject>(); 
+        _snakeBodies = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -78,7 +81,15 @@ public class SnakeHead : MonoBehaviour
         {
             GameOver();
         }
+
+        if (collision.gameObject.CompareTag("Apple"))
+        {
+            _snakeGameManager.EatApple();
+        }
+
     }
+
+
     void GameOver()
     {
         _isturn = true;
@@ -106,5 +117,6 @@ public class SnakeHead : MonoBehaviour
         _justCreatebody = bodyClone.GetComponent<Collider2D>();
         _justCreatebody.isTrigger = true; //因為剛開始添加蛇頭蛇身位置相同，會發生碰撞的bug
         _snakeBodies.Add(bodyClone);
+
     }
 }
